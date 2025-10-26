@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Complete Reservation</title>
+  <link rel="stylesheet" href="./css/booking.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css" />
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+
+</head>
+<body>
+  <div class="booking-container">
+    <h2 class="section-title">COMPLETE RESERVATION</h2>
+    <p class="notice">
+      Upon completing this reservation enquiry, you will receive:<br>
+      Your rental voucher to produce on arrival at the rental desk and a toll-free customer support number.
+    </p>
+
+    <div class="booking-summary">
+      <div class="left">
+        <h3>Location & Date</h3>
+      <label>Pick-Up Date & Time</label>
+<input type="datetime-local" id="pickup-date">
+
+<label>Drop-Off Date & Time</label>
+<input type="datetime-local" id="dropoff-date">
+
+        <label>Pick-Up Location</label>
+<select id="pickup-location">
+  <option value="">Select city</option>
+  <option value="Chennai">Chennai</option>
+  <option value="Bangalore">Bangalore</option>
+  <option value="Pondicherry">Pondicherry</option>
+  <option value="Trichy">Trichy</option>
+  <option value="Delhi">Delhi</option>
+  <option value="Mumbai">Mumbai</option>
+  <option value="Cochin">Cochin</option>
+</select>
+
+<label>Drop-Off Location</label>
+<select id="dropoff-location">
+  <option value="">Select city</option>
+  <option value="Chennai">Chennai</option>
+  <option value="Bangalore">Bangalore</option>
+  <option value="Pondicherry">Pondicherry</option>
+  <option value="Trichy">Trichy</option>
+  <option value="Delhi">Delhi</option>
+  <option value="Mumbai">Mumbai</option>
+  <option value="Cochin">Cochin</option>
+</select>
+      </div>
+
+      <div class="right">
+        <h3 id="car-name">Car - Toyota Camry</h3>
+        <img id="car-image" src="toyota.jpg" alt="Car Image">
+        <p class="price"><span id="car-price"></span> </p>
+      </div>
+    </div>
+
+    <h2 class="section-title">PERSONAL INFORMATION</h2>
+<form class="personal-info" id="booking-form">
+  <div class="row">
+    <input type="text" placeholder="First Name" required>
+    <input type="text" placeholder="Last Name" required>
+  </div>
+  <div class="row">
+    <input type="tel" placeholder="Phone Number" required maxlength="10">
+    <input type="number" placeholder="Age" required min="18" maxlength="3">
+  </div>
+  <div class="row">
+    <input type="email" placeholder="Email" required>
+    <input type="text" placeholder="Address" required>
+  </div>
+  <div class="row">
+    <input type="text" placeholder="City" required>
+    <input type="text" placeholder="Zip Code" required>
+  </div>
+
+  <!-- ✅ Added Government ID Upload Field -->
+  <div class="row">
+    <label for="govt-id">Upload Government ID (Aadhar / License / Passport):</label>
+    <input type="file" id="govt-id" name="govt-id" accept=".jpg,.jpeg,.png,.pdf" required>
+  </div>
+
+  <label><input type="checkbox"> Please send me latest news and updates</label>
+  <button type="submit" class="reserve-btn">Reserve Now</button>
+</form>
+
+
+  </div>
+  <!-- Include Flatpickr CSS & JS in head or before script -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css" />
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+
+<script>
+
+  const form = document.getElementById("booking-form");
+
+  form.addEventListener("submit", function(e) {
+    e.preventDefault(); // prevent default form submission
+
+    if (form.checkValidity()) {
+      // Collect all booking details
+      // const bookingData = {
+      //   carName: document.getElementById("car-name").innerText,
+      //   pickupLocation: document.getElementById("pickup-location").value,
+      //   dropoffLocation: document.getElementById("dropoff-location").value,
+      //   pickupDate: document.getElementById("pickup-date").value,
+      //   dropoffDate: document.getElementById("dropoff-date").value,
+      //   carPrice: document.getElementById("car-price").innerText || "₹7000"
+      // };
+      const bookingData = {
+  carName: document.getElementById("car-name").innerText,
+  pickupLocation: document.getElementById("pickup-location").value,
+  dropoffLocation: document.getElementById("dropoff-location").value,
+  pickupDate: document.getElementById("pickup-date").value,
+  dropoffDate: document.getElementById("dropoff-date").value,
+  carPrice: document.getElementById("car-price").innerText || "₹7000"
+};
+if (!bookingData.dropoffLocation) {
+  alert("Please select a drop-off location.");
+  return;
+}
+
+
+      // Save details to localStorage
+      localStorage.setItem("bookingData", JSON.stringify(bookingData));
+
+      // Redirect to payment page
+      window.location.href = "payment.html";
+    } else {
+      form.reportValidity(); // show validation errors
+    }
+  });
+document.addEventListener("DOMContentLoaded", function() {
+  const today = new Date();
+  
+  // Get local date and time in YYYY-MM-DDThh:mm format
+  const localISOTime = today.toISOString().slice(0,16);
+
+  // Set the minimum value (today) for both fields
+  document.getElementById("pickup-date").min = localISOTime;
+  document.getElementById("dropoff-date").min = localISOTime;
+});
+
+
+
+async function loadBookedDates() {
+  const response = await fetch("/api/booked-dates");
+  if (!response.ok) return;
+  const bookedRanges = await response.json();
+  return bookedRanges;
+}
+
+document.addEventListener("DOMContentLoaded", async () => {
+  const bookedRanges = await loadBookedDates();
+  const pickupInput = document.getElementById("pickup-date");
+  const dropoffInput = document.getElementById("dropoff-date");
+
+  pickupInput.addEventListener("change", () => {
+    const selected = new Date(pickupInput.value);
+    for (const { pickupDate, dropoffDate } of bookedRanges) {
+      if (selected >= new Date(pickupDate) && selected <= new Date(dropoffDate)) {
+        alert("Selected pickup date overlaps with an existing booking. Please choose another date.");
+        pickupInput.value = "";
+        break;
+      }
+    }
+  });
+
+  dropoffInput.addEventListener("change", () => {
+    const selected = new Date(dropoffInput.value);
+    for (const { pickupDate, dropoffDate } of bookedRanges) {
+      if (selected >= new Date(pickupDate) && selected <= new Date(dropoffDate)) {
+        alert("Selected drop-off date overlaps with an existing booking. Please choose another date.");
+        dropoffInput.value = "";
+        break;
+      }
+    }
+  });
+});
+
+
+
+document.addEventListener("DOMContentLoaded", async () => {
+  try {
+    const res = await fetch("/api/booked-dates");
+    const bookedRangesRaw = await res.json();
+
+    // Convert string dates to Date objects for flatpickr
+    const bookedRanges = bookedRangesRaw.map(({ pickupDate, dropoffDate }) => ({
+      from: new Date(pickupDate),
+      to: new Date(dropoffDate)
+    }));
+
+    // Initialize flatpickr with disabled ranges
+    flatpickr("#pickup-date", {
+      enableTime: true,
+      minDate: "today",
+      disable: bookedRanges
+    });
+
+    flatpickr("#dropoff-date", {
+      enableTime: true,
+      minDate: "today",
+      disable: bookedRanges
+    });
+  } catch (e) {
+    console.error("Failed to load booked dates", e);
+  }
+});
+
+document.addEventListener("DOMContentLoaded", async () => {
+  // Fetch booked bookings from backend
+  const response = await fetch("/api/booked-dates");
+  const bookedRangesRaw = await response.json();
+
+  // Convert all booked date-times to disable whole days
+  // Because flatpickr disables days, time cannot be disabled now
+  const disableDates = [];
+
+  bookedRangesRaw.forEach(({ pickupDate, dropoffDate }) => {
+    const from = new Date(pickupDate);
+    from.setHours(0,0,0,0);
+    const to = new Date(dropoffDate);
+    to.setHours(23,59,59,999);
+
+    // generate array of Date objects for days between from-to inclusive
+    for (let d = new Date(from); d <= to; d.setDate(d.getDate() + 1)) {
+      disableDates.push(new Date(d));
+    }
+  });
+
+  flatpickr("#pickup-date", {
+    enableTime: true,
+    dateFormat: "Y-m-d H:i",
+    minDate: "today",
+    disable: disableDates,
+  });
+
+  flatpickr("#dropoff-date", {
+    enableTime: true,
+    dateFormat: "Y-m-d H:i",
+    minDate: "today",
+    disable: disableDates,
+  });
+});
+
+</script>
+  <script src="./script/booking.js"></script>
+</body>
+</html>

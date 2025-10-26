@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Forgot Password | Car Rental</title>
+  <link rel="stylesheet" href="./css/forgot.css">
+</head>
+<body>
+  <form id="forgot-form">
+    <h2>Forgot Password</h2>
+
+    <div id="step1">
+      <input type="text" id="username" placeholder="Username" required>
+      <input type="email" id="email" placeholder="Registered Email" required>
+      <button type="button" id="sendOtpBtn">Send OTP</button>
+    </div>
+
+    <div id="step2"    style="display: none;" >
+      <input type="text" id="otp" placeholder="Enter OTP" required>
+      <input type="password" id="newPassword" placeholder="New Password" required>
+      <input type="password" id="confirmPassword" placeholder="Confirm Password" required>
+      <button type="button" id="changePasswordBtn">Change Password</button>
+    </div>
+  </form>
+
+  <script>
+    const step1 = document.getElementById("step1");
+    const step2 = document.getElementById("step2");
+    const sendOtpBtn = document.getElementById("sendOtpBtn");
+    const changePasswordBtn = document.getElementById("changePasswordBtn");
+
+    sendOtpBtn.addEventListener("click", async () => {
+      const username = document.getElementById("username").value;
+      const email = document.getElementById("email").value;
+
+      const res = await fetch("http://localhost:3000/api/forgot-password", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ username, email }),
+      });
+
+      const data = await res.json();
+      if (res.ok) {
+        alert("OTP sent to your registered email!");
+        step1.style.display = "none";
+        step2.style.display = "block";
+      } else {
+        alert(data.error);
+      }
+    });
+
+    changePasswordBtn.addEventListener("click", async () => {
+      const username = document.getElementById("username").value;
+      const otp = document.getElementById("otp").value;
+      const newPassword = document.getElementById("newPassword").value;
+      const confirmPassword = document.getElementById("confirmPassword").value;
+
+      if (newPassword !== confirmPassword) {
+        alert("Passwords do not match!");
+        return;
+      }
+
+      const res = await fetch("http://localhost:3000/api/reset-password", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ username, otp, newPassword }),
+      });
+
+      const data = await res.json();
+      if (res.ok) {
+        alert("Password changed successfully!");
+        window.location.href = "login.html";
+      } else {
+        alert(data.error);
+      }
+    });
+  </script>
+</body>
+</html>

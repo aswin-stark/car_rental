@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Booking Confirmed</title>
+  <link rel="stylesheet" href="./css/confirmation.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+</head>
+<body>
+  <div class="confirm-container">
+    <div class="card" id="reservation-card">
+      <h1>✅ Booking Confirmed!</h1>
+      <p>Thank you for your reservation. Your booking has been successfully completed.</p>
+
+     <div class="details">
+  <h3>Reservation Details</h3>
+  <p><strong>Car:</strong> <span id="conf-car"></span></p>
+  <p><strong>Pick-Up:</strong> <span id="conf-pickup"></span></p>
+  <p><strong>Drop-Off:</strong> <span id="conf-dropoff"></span></p>
+  <p><strong>Dates:</strong> <span id="conf-dates"></span></p>
+  <p><strong>Total Price:</strong> <span id="conf-price"></span></p>
+</div>
+
+    </div>
+
+    <button class="home-btn" onclick="window.location.href='index1.html'">Go to Home</button>
+    <button class="print-btn" onclick="printReservation()">Print Details</button>
+    <button class="download-btn" onclick="downloadPDF()">Download PDF</button>
+  </div>
+
+  <script src="./script/confirmation.js"></script>
+<!-- <script>
+document.addEventListener("DOMContentLoaded", function() {
+  const bookingData = JSON.parse(localStorage.getItem("bookingData"));
+
+  if (bookingData) {
+    document.getElementById("conf-car").textContent = bookingData.carName;
+    document.getElementById("conf-pickup").textContent = bookingData.pickupLocation;
+    document.getElementById("conf-dropoff").textContent = bookingData.dropoffLocation;
+
+    // Format YYYY-MM-DD to "15 Oct 2025"
+    function formatDate(dateStr) {
+      const [year, month, day] = dateStr.split("-");
+      const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
+                      "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+      return `${parseInt(day)} ${months[parseInt(month)-1]} ${year}`;
+    }
+
+    document.getElementById("conf-dates").textContent =
+      `${formatDate(bookingData.pickupDate)} - ${formatDate(bookingData.dropoffDate)}`;
+
+    document.getElementById("conf-price").textContent = bookingData.carPrice;
+
+  } else {
+    document.getElementById("reservation-card").innerHTML =
+      "<h2>⚠️ No booking data found. Please go back and complete your reservation.</h2>";
+  }
+});
+
+</script> -->
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+  const bookingData = JSON.parse(localStorage.getItem("bookingData"));
+
+  if (bookingData) {
+    document.getElementById("conf-car").textContent = bookingData.carName;
+    document.getElementById("conf-pickup").textContent = bookingData.pickupLocation;
+    document.getElementById("conf-dropoff").textContent = bookingData.dropoffLocation;
+
+    function formatDate(dateStr) {
+      const [year, month, day] = dateStr.split("-");
+      const months = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+      return `${parseInt(day)} ${months[parseInt(month)-1]} ${year}`;
+    }
+
+    document.getElementById("conf-dates").textContent =
+      `${formatDate(bookingData.pickupDate)} - ${formatDate(bookingData.dropoffDate)}`;
+    // FIXED LINE BELOW
+    document.getElementById("conf-price").textContent = bookingData.carPrice;
+  } else {
+    document.getElementById("reservation-card").innerHTML =
+      "<h2>⚠️ No booking data found. Please go back and complete your reservation.</h2>";
+  }
+});
+function formatDate(dateStr) {
+  if (!dateStr) return "Not provided";
+
+  const date = new Date(dateStr);
+  const day = date.getDate();
+  const monthNames = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+  const month = monthNames[date.getMonth()];
+  const year = date.getFullYear();
+
+  const hours = date.getHours().toString().padStart(2, '0');
+  const minutes = date.getMinutes().toString().padStart(2, '0');
+
+  return `${day} ${month} ${year} at ${hours}:${minutes}`;
+}
+
+
+document.addEventListener("DOMContentLoaded", function () {
+  const bookingData = JSON.parse(localStorage.getItem("bookingData"));
+
+  if (bookingData) {
+    // Populate confirmation info (your existing code)
+
+    // Send booking data to backend to store in DB
+    fetch("http://localhost:3000/api/book", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        username: bookingData.username || "guest",
+        carName: bookingData.carName,
+        pickupLocation: bookingData.pickupLocation,
+        dropoffLocation: bookingData.dropoffLocation,
+        pickupDate: bookingData.pickupDate,
+        dropoffDate: bookingData.dropoffDate,
+        totalPrice: bookingData.carPrice
+      })
+    })
+    .then(res => res.json())
+    .then(data => {
+      if (data.error) {
+        alert("Booking failed: " + data.error);
+      } else {
+        console.log("Booking saved successfully:", data.booking);
+      }
+    })
+    .catch(e => {
+      console.error("Error saving booking:", e);
+      alert("Failed to save booking, please try again.");
+    });
+  } else {
+    document.getElementById("reservation-card").innerHTML =
+      "<h2>⚠️ No booking data found. Please complete your reservation.</h2>";
+  }
+});
+<!-- At the bottom of your confirmation.html, within <script> tags -->
+
+document.addEventListener("DOMContentLoaded", function() {
+  const bookingData = JSON.parse(localStorage.getItem("bookingData"));
+  if (bookingData) {
+    // Already fills confirmation display here...
+
+    // Now paste this code to send details to the backend:
+    fetch("http://localhost:3000/api/book", {
+      method: "POST",
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify({
+        username: bookingData.username || "guest",
+        carName: bookingData.carName,
+        pickupLocation: bookingData.pickupLocation,
+        dropoffLocation: bookingData.dropoffLocation,
+        pickupDate: bookingData.pickupDate,
+        dropoffDate: bookingData.dropoffDate,
+        totalPrice: bookingData.carPrice
+      })
+    })
+    .then(response => response.json())
+    .then(data => {
+      if (data.error) {
+        alert("Booking failed: " + data.error);
+      } else {
+        alert("Booking stored successfully!");
+        // Optionally update the page or redirect
+      }
+    })
+    .catch(error => {
+      alert("Booking failed: Server error");
+      console.error(error);
+    });
+  }
+});
+
+fetch("http://localhost:3000/api/book", {
+  method: "POST",
+  headers: {"Content-Type": "application/json"},
+  body: JSON.stringify({
+    username: bookingData.username || "guest",
+    carName: bookingData.carName,
+    pickupLocation: bookingData.pickupLocation,
+    dropoffLocation: bookingData.dropoffLocation,
+    pickupDate: bookingData.pickupDate,
+    dropoffDate: bookingData.dropoffDate,
+    totalPrice: bookingData.carPrice
+  })
+})
+.then(response => response.json())
+.then(data => {
+  if (data.error) {
+    alert("Booking failed: " + data.error);
+  } else {
+    alert("Booking stored successfully!");
+  }
+})
+.catch(error => {
+  alert("Booking failed: Server error");
+  console.error(error);
+});
+
+
+</script>
+</body>
+</html>

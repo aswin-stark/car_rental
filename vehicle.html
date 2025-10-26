@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vehicle Models | CAR Rental</title>
+  <link rel="stylesheet" href="/css/vehicle.css">
+</head>
+<body>
+
+  <!-- ========== HEADER ========== -->
+  <header class="navbar">
+    <div class="logo">
+      <img src="./assets/car-icon.jpg" alt="Car Rental Logo">
+      <span>CAR <strong>Rental</strong></span>
+    </div>
+    <nav class="nav-links">
+      <a href="./index.html">Home</a>
+      <a href="./about.html">About</a>
+      <a href="#">Vehicle Models</a>
+      <a href="./testinomials.html">Testimonials</a>
+      <a href="./contact.html">Contact</a>
+    </nav>
+    <div class="auth-buttons">
+      <a href="/signup.html" class="signin">Sign In</a>
+      <a href="/login.html" class="register">Register</a>
+    </div>
+  </header>
+  <!-- ========== VEHICLE SECTION ========== -->
+  <section class="vehicle-section">
+    <div class="vehicle-title">
+      <h2>Vehicle Models</h2>
+      <p>Home / Vehicle Models</p>
+    </div>
+
+    <div class="vehicle-grid">
+      <div class="vehicle-card">
+        <img src="./assets/audi-a1.jpg" alt="Audi A1">
+        <h3>Audi A1 <span>&#8377;4500/day</span></h3>
+        <p>Audi | Manual | Diesel | 4/5</p>
+        <button class="book-btn" data-car="Audi A1">Book Ride</button>
+      </div>
+
+      <div class="vehicle-card">
+        <img src="./assets/golf-6.jpeg" alt="Golf 6">
+        <h3>Golf 6 <span>&#8377;3700/day</span></h3>
+        <p>VW | Manual | Diesel | 4/5</p>
+        <button class="book-btn" data-car="Golf 6">Book Ride</button>
+      </div>
+
+      <div class="vehicle-card">
+        <img src="./assets/toyoto.jpg" alt="Toyota Camry">
+        <h3>Toyota <span>&#8377;3000/day</span></h3>
+        <p>Camry | Manual | Diesel | 4/5</p>
+        <button class="book-btn" data-car="Toyota">Book Ride</button>
+      </div>
+
+      <div class="vehicle-card">
+        <img src="./assets/BMW-320.webp" alt="BMW 320">
+        <h3>BMW 320 <span>&#8377;1000/day</span></h3>
+        <p>ModernLine | Manual | Diesel | 4/5</p>
+        <button class="book-btn" data-car="BMW 320">Book Ride</button>
+      </div>
+
+      <div class="vehicle-card">
+        <img src="./assets/mercedes.jpg" alt="Mercedes GLK">
+        <h3>Mercedes <span>&#8377;5000/day</span></h3>
+        <p>Benz GLK | Manual | Diesel | 4/5</p>
+        <button class="book-btn" data-car="Mercedes">Book Ride</button>
+      </div>
+
+      <div class="vehicle-card">
+        <img src="./assets/VW Passat.avif" alt="VW Passat">
+        <h3>VW Passat <span>&#8377;5500/day</span></h3>
+        <p>CC | Manual | Diesel | 4/5</p>
+        <button class="book-btn" data-car="VW Passat">Book Ride</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== BOOKING MODAL ========== -->
+  <div id="booking-modal" class="modal">
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <h2>Book Your Ride</h2>
+      <p id="selected-car"></p>
+      <form id="booking-form">
+        <input type="text" id="name" placeholder="Full Name" required>
+        <input type="email" id="email" placeholder="Email Address" required>
+        <input type="date" id="date" required>
+        <button type="submit">Confirm Booking</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- ========== FOOTER ========== -->
+  <footer>
+    <div class="footer-container">
+      <div class="footer-column">
+        <h3>CAR Rental</h3>
+        <p>We offer a big range of vehicles for all your driving needs.</p>
+        <p><strong>(123) 456-7869</strong><br> carrental@xyz.com</p>
+      </div>
+      <div class="footer-column">
+        <h3>Company</h3>
+        <p>Gallery</p>
+        <p>Careers</p>
+        <p>Blog</p>
+        <p>Ford</p>
+      </div>
+      <div class="footer-column">
+        <h3>Working Hours</h3>
+        <p>Mon - Fri: 9:00AM - 8:00PM</p>
+        <p>Sat: 9:00AM - 7:00PM</p>
+        <p>Sun: Closed</p>
+      </div>
+      <div class="footer-column">
+        <h3>Subscribe</h3>
+        <p>
+          Subscribe your Email address for latest news & updates.
+        </p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="./script/vehicle.js"></script>
+
+    <script>
+document.addEventListener("DOMContentLoaded", () => {
+  const buttons = document.querySelectorAll(".book-btn");
+
+  buttons.forEach(btn => {
+    btn.addEventListener("click", async () => {
+      const carName = btn.getAttribute("data-car");
+
+      // Get the user-selected dates from the form
+      const pickupDate = document.getElementById("pickup-date").value;
+      const dropoffDate = document.getElementById("dropoff-date").value;
+
+      if (!pickupDate || !dropoffDate) {
+        alert("Please select pickup and drop-off dates first!");
+        return;
+      }
+
+      try {
+        // Call backend to get all bookings for this car
+        const res = await fetch("http://localhost:3000/api/admin/bookings");
+        const bookings = await res.json();
+
+        // Check if any booking conflicts with selected dates
+        const conflict = bookings.find(b =>
+          b.carName === carName &&
+          b.status === "booked" &&
+          !(dropoffDate < b.pickupDate || pickupDate > b.dropoffDate) // overlapping dates
+        );
+
+        if (conflict) {
+          alert(`⚠️ ${carName} is already booked from ${conflict.pickupDate} to ${conflict.dropoffDate}!`);
+          window.location.href = "./vehicle.html"; // go back to vehicle page
+        } else {
+          // If no conflict, save booking data and go to payment page
+          const bookingData = {
+            carName,
+            pickupDate,
+            dropoffDate,
+            pickupLocation: document.getElementById("pickup-location").value,
+            dropoffLocation: document.getElementById("dropoff-location").value,
+            totalPrice: btn.getAttribute("data-price") || 7000
+          };
+          localStorage.setItem("bookingData", JSON.stringify(bookingData));
+          window.location.href = "payment.html";
+        }
+      } catch (err) {
+        console.error(err);
+        alert("Error checking bookings. Try again later.");
+      }
+    });
+  });
+});
+</script>
+
+</body>
+</html>

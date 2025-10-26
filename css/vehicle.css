@@ -1,0 +1,409 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+
+/* HEADER */
+header.navbar {
+  background: #fff;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 60px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.logo img {
+  width: 50px;
+  height: 50px;
+  border-radius: 10px;
+}
+.logo span {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #000;
+}
+.logo strong { color: orangered; }
+
+.nav-links a {
+  margin: 0 15px;
+  text-decoration: none;
+  color: #333;
+  font-weight: 500;
+  position: relative;
+}
+.nav-links a:hover,
+.nav-links .active {
+  color: orangered;
+}
+.auth-buttons a {
+  text-decoration: none;
+  font-weight: 500;
+  padding: 8px 18px;
+  border-radius: 25px;
+  transition: all 0.3s ease;
+}
+.signin {
+  border: 2px solid orangered;
+  color: orangered;
+}
+.signin:hover {
+  background: orangered;
+  color: #fff;
+}
+.register {
+  background: orangered;
+  color: #fff;
+}
+.register:hover {
+  background: #fff;
+  color: orangered;
+}
+
+/* VEHICLE SECTION */
+.vehicle-section {
+  text-align: center;
+  padding: 100px 60px;
+  background-color: #f8f8f8;
+}
+.vehicle-title h2 {
+  font-size: 2rem;
+  margin-bottom: 5px;
+}
+.vehicle-title p {
+  color: #888;
+  font-size: 0.9rem;
+  margin-bottom: 40px;
+}
+.vehicle-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 30px;
+}
+.vehicle-card {
+  background: #fff;
+  border-radius: 15px;
+  overflow: hidden;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+  transition: all 0.3s ease;
+}
+.vehicle-card:hover {
+  transform: translateY(-8px);
+}
+.vehicle-card img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+}
+.vehicle-card h3 {
+  font-size: 1.2rem;
+  margin: 10px 0;
+}
+.vehicle-card span {
+  color: orangered;
+  font-size: 1rem;
+}
+.vehicle-card p {
+  color: #555;
+  font-size: 0.9rem;
+}
+.book-btn {
+  margin: 15px 0 20px;
+  background: orangered;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+.book-btn:hover {
+  background: orangered;
+}
+
+/* MODAL */
+.modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  justify-content: center;
+  align-items: center;
+}
+.modal-content {
+  background: #fff;
+  padding: 30px;
+  border-radius: 15px;
+  text-align: center;
+  width: 90%;
+  max-width: 400px;
+}
+.modal-content input {
+  width: 100%;
+  margin: 10px 0;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+}
+.modal-content button {
+  background: orangered;
+  color: #fff;
+  padding: 10px;
+  width: 100%;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+}
+.close {
+  float: right;
+  font-size: 22px;
+  cursor: pointer;
+}
+
+/* FOOTER */
+footer {
+  background: #111;
+  color: #fff;
+  padding: 60px 60px 30px;
+  display: flex;
+  flex-direction: column;
+  
+  
+}
+.footer-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 40px;
+}
+.footer-column h3 {
+  color: orangered;
+  margin-bottom: 15px;
+}
+.footer-column p {
+  color: #bbb;
+  font-size: 0.9rem;
+  line-height: 1.6;
+}
+.footer-column input {
+  width: 100%;
+  padding: 10px;
+  border-radius: 5px;
+  border: none;
+  margin-bottom: 10px;
+}
+.footer-column button {
+  width: 100%;
+  background: orangered;
+  color: #fff;
+  border: none;
+  padding: 10px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+.footer-column button:hover {
+  background: orangered;
+}
+/* ========== HEADER NAVBAR STYLES ========== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+
+header.navbar {
+  width: 100%;
+  height: 80px;
+  background-color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 50px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* ---------- LOGO ---------- */
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.logo img {
+  width: 50px;
+  height: 50px;
+  border-radius: 10px;
+  object-fit: cover;
+}
+
+.logo span {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #000;
+  letter-spacing: 1px;
+}
+
+.logo strong {
+  color: orangered; /* Red accent */
+}
+
+/* ---------- NAV LINKS ---------- */
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 30px;
+}
+
+.nav-links a {
+  text-decoration: none;
+  font-size: 1rem;
+  color: #333;
+  font-weight: 500;
+  transition: color 0.3s ease, border-bottom 0.3s ease;
+  position: relative;
+}
+
+.nav-links a::after {
+  content: "";
+  position: absolute;
+  bottom: -6px;
+  left: 0;
+  width: 0%;
+  height: 2px;
+  background-color: orangered;
+  transition: width 0.3s ease;
+}
+
+.nav-links a:hover {
+  color: orangered;
+}
+
+.nav-links a:hover::after {
+  width: 100%;
+}
+
+/* ---------- AUTH BUTTONS ---------- */
+.auth-buttons {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  visibility: hidden;
+}
+
+.auth-buttons a {
+  text-decoration: none;
+  font-weight: 500;
+  padding: 8px 18px;
+  border-radius: 25px;
+  transition: all 0.3s ease;
+}
+
+.auth-buttons .signin {
+  color: orangered;
+  border: 2px solid orangered;
+}
+
+.auth-buttons .signin:hover {
+  background-color: orangered;
+  color: #fff;
+}
+
+.auth-buttons .register {
+  background-color: orangered;
+  color: #fff;
+  border: 2px solid orangered;
+}
+
+.auth-buttons .register:hover {
+  background-color: #fff;
+  color: orangered;
+}
+
+/* ---------- RESPONSIVE DESIGN ---------- */
+@media (max-width: 992px) {
+  header.navbar {
+    padding: 0 25px;
+  }
+
+  .nav-links {
+    gap: 20px;
+  }
+}
+
+@media (max-width: 768px) {
+  .nav-links {
+    display: none; /* Hide menu on small screens */
+  }
+
+  .auth-buttons {
+    display: none;
+  }
+
+  /* Add your mobile menu / hamburger later */
+}
+
+/* Make the page take full height and use flex layout */
+html, body {
+  height: 100%;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Make main content area expand to fill space */
+.vehicle-section {
+  flex: 1;
+}
+
+/* Footer styles */
+footer {
+  background: #111;
+  color: #fff;
+  padding: 60px 60px 30px;
+  margin-top: auto; /* Pushes footer to the bottom */
+}
+
+.footer-container {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.footer-column {
+  flex: 1 1 200px;
+  margin: 10px;
+}
+
+.book-btn {
+  background-color: orangered;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.book-btn:hover:not(:disabled) {
+  background-color: #ff5722;
+}
+
+.book-btn:disabled {
+  background-color: gray;
+  opacity: 0.7;
+}

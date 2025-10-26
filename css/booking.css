@@ -1,0 +1,211 @@
+/* ===== GENERAL RESET ===== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Poppins", sans-serif;
+  background: #f6f7fb;
+  color: #333;
+  line-height: 1.6;
+}
+
+/* ===== MAIN CONTAINER ===== */
+.booking-container {
+  max-width: 900px;
+  background: #fff;
+  margin: 40px auto;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+/* ===== SECTION HEADINGS ===== */
+.section-title {
+  background: #ff4c24;
+  color: #fff;
+  padding: 12px 20px;
+  font-size: 20px;
+  border-radius: 6px;
+  margin-bottom: 15px;
+  letter-spacing: 0.5px;
+}
+
+.notice {
+  background: #fff5f2;
+  border-left: 5px solid #ff4c24;
+  padding: 15px;
+  border-radius: 5px;
+  font-size: 15px;
+  margin-bottom: 25px;
+}
+
+/* ===== SUMMARY SECTION ===== */
+.booking-summary {
+  display: flex;
+  justify-content: space-between;
+  gap: 25px;
+  flex-wrap: wrap;
+  margin-bottom: 35px;
+}
+
+.booking-summary .left,
+.booking-summary .right {
+  flex: 1;
+  min-width: 260px;
+}
+
+.booking-summary h3 {
+  color: #222;
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+
+label {
+  display: block;
+  margin: 10px 0 5px;
+  font-weight: 500;
+}
+
+input[type="date"],
+input[type="text"],
+input[type="email"],
+input[type="tel"],
+input[type="number"] {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 15px;
+  outline: none;
+  transition: 0.3s;
+}
+
+input:focus {
+  border-color: #ff4c24;
+  box-shadow: 0 0 3px rgba(255, 76, 36, 0.4);
+}
+
+/* ===== RIGHT SIDE (CAR DETAILS) ===== */
+.right {
+  text-align: center;
+}
+
+#car-name {
+  color: #222;
+  margin-bottom: 8px;
+}
+
+#car-image {
+  width: 100%;
+  max-width: 260px;
+  height: auto;
+  border-radius: 8px;
+  margin: 10px 0;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+}
+
+.price {
+  font-size: 18px;
+  font-weight: bold;
+  color: #333;
+}
+
+/* ===== FORM SECTION ===== */
+.personal-info {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.row {
+  display: flex;
+  gap: 15px;
+  flex-wrap: wrap;
+}
+
+.row input {
+  flex: 1;
+  min-width: 200px;
+}
+
+label input[type="checkbox"] {
+  margin-right: 8px;
+}
+
+/* ===== BUTTON ===== */
+.reserve-btn {
+  background: #ff4c24;
+  color: #fff;
+  padding: 12px 25px;
+  border: none;
+  border-radius: 6px;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: 0.3s;
+  width: fit-content;
+  margin-top: 10px;
+}
+
+.reserve-btn:hover {
+  background: #e04320;
+  transform: scale(1.02);
+}
+
+/* ===== RESPONSIVE DESIGN ===== */
+@media (max-width: 768px) {
+  .booking-summary {
+    flex-direction: column;
+  }
+
+  .right {
+    margin-top: 20px;
+  }
+
+  .section-title {
+    font-size: 18px;
+  }
+}
+/* Style for the upload ID section */
+.personal-info .row label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: #333;
+  font-size: 14px;
+}
+
+.personal-info .row input[type="file"] {
+  width: 100%;
+  padding: 10px;
+  border: 2px dashed #999;
+  border-radius: 10px;
+  background-color: #fafafa;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 14px;
+}
+
+.personal-info .row input[type="file"]:hover {
+  border-color: #007bff;
+  background-color: #f0f8ff;
+}
+
+.personal-info .row input[type="file"]::file-selector-button {
+  background-color: orangered;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  padding: 8px 14px;
+  margin-right: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  font-size: 14px;
+}
+
+.personal-info .row input[type="file"]::file-selector-button:hover {
+  background-color: #0056b3;
+}

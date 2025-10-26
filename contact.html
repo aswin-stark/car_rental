@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Contact - CAR Rental</title>
+  <link rel="stylesheet" href="./css/contact.css" />
+</head>
+<body>
+  <!-- HEADER -->
+  <header class="navbar">
+    <div class="logo">
+      <img src="./assets/car-icon.jpg" alt="Car Rental Logo" />
+      <span>CAR <strong>Rental</strong></span>
+    </div>
+    <nav class="nav-links">
+      <a href="./index.html">Home</a>
+      <a href="./about.html">About</a>
+      <a href="./vehicle.html">Vehicle Models</a>
+      <a href="./testinomials.html">Testimonials</a>
+      <a href="./contact.html" class="active">Contact</a>
+    </nav>
+    <div class="auth-buttons">
+      <a href="#" class="signin">Sign In</a>
+      <a href="#" class="register">Register</a>
+    </div>
+  </header>
+
+
+  <section class="contact-wrapper">
+ 
+    <div class="contact-info">
+      <h2>Need additional information?</h2>
+      <p>A multifaceted professional skilled in research, development, and strategy. Over 5 years of experience.</p>
+      <span>+91 8144721458,</span>
+      <span>ajayaswin521@gmail.com,</span>
+      <span>TamilNadu, Chennai</span>
+    </div>
+    <div class="contact-form">
+<div class="contact-form">
+  <form id="contactForm" action="/send-email" method="POST">
+    <input type="text" name="name" placeholder="Name" required>
+    <input type="email" name="email" placeholder="Email" required>
+    <input type="text" name="subject" placeholder="Subject" required>
+    <textarea name="message" placeholder="Your message..." required></textarea>
+    <button type="submit">Send</button>
+  </form>
+</div>
+
+
+    </div>
+  </section>
+
+
+  <section class="contact-banner">
+    Book a car by getting in touch with us <span>+91 8144721458</span>
+  </section>
+
+ 
+  <footer class="footer">
+    <div class="footer-container">
+      <div class="footer-column">
+        <h3><strong>CAR</strong> Rental</h3>
+        <p>We offer a big range of vehicles for all your driving needs. We have the perfect car to meet your needs.</p>
+        <p><strong>+91 8144721458</strong></p>
+        <p>ajayaswin521@gmail.com</p>
+        <p>&copy; AswinStark. All rights  reserved</p>
+      </div>
+
+      <div class="footer-column">
+        <h3>COMPANY</h3>
+        <ul>
+           <li><a href="#">Ford</a></li>
+        <li><a href="#">Mahindra</a></li>
+        <li><a href="#">Tata</a></li>
+        <li><a href="#">Toyoto</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-column">
+        <h3>WORKING HOURS</h3>
+        <p>Mon - Fri: 9:00AM - 9:00PM</p>
+        <p>Sat: 9:00AM - 19:00PM</p>
+        <p>Sun: Closed</p>
+      </div>
+
+      <div class="footer-column">
+        <h3>SUBSCRIPTION</h3>
+        <p>Subscribe your Email address for latest news & updates.</p> 
+      </div>
+    </div>
+  </footer>
+   
+<script src="./script/script.js"></script>
+<script>
+  document.getElementById('contactForm').addEventListener('submit', async function (e) {
+    e.preventDefault();
+
+    const formData = {
+      name: this.name.value,
+      email: this.email.value,
+      subject: this.subject.value,
+      message: this.message.value
+    };
+
+    try {
+      const response = await fetch('http://localhost:3000/send-email', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData)
+      });
+
+      const result = await response.text();
+      alert(result);
+      this.reset();
+    } catch (error) {
+      alert('❌ Failed to send message. Server error.');
+    }
+  });
+</script>
+
+</body>
+</html>
